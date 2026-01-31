@@ -12,3 +12,14 @@ body {
   height: 100%;
   overflow: hidden;
 }
+
+/* Support for Dynamic Island and home indicator on iOS */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
