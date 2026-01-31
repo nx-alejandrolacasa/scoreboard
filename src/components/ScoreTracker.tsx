@@ -38,67 +38,91 @@ function ScoreArea({
     }
   };
 
-  // Use inline styles for safe area positioning
-  const topStyle = isTop
-    ? { top: "calc(1rem + env(safe-area-inset-top, 0px))" }
-    : { top: "1rem" };
-  const bottomStyle = isTop
-    ? { bottom: "1rem" }
-    : { bottom: "calc(1rem + env(safe-area-inset-bottom, 0px))" };
+  // Apply safe area padding classes
+  const safeTopClass = isTop ? "pt-safe" : "";
+  const safeBottomClass = isTop ? "" : "pb-safe";
 
   return (
     <div
       role="button"
       tabIndex={0}
-      className="relative flex-1 flex items-center justify-center cursor-pointer transition-colors duration-300"
+      className={`flex-1 flex flex-col cursor-pointer transition-colors duration-300 ${safeTopClass} ${safeBottomClass}`}
       style={{ backgroundColor: color }}
       onClick={handleMainClick}
       onKeyDown={handleKeyDown}
     >
-      {/* Team name - centered at top */}
-      <input
-        type="text"
-        value={teamName}
-        onChange={(e) => onTeamNameChange(e.target.value)}
-        onClick={(e) => e.stopPropagation()}
-        placeholder="Nom de l'equip"
-        className="absolute left-1/2 -translate-x-1/2 bg-transparent text-white text-center text-xl font-semibold placeholder-white/30 outline-none border-none w-48 md:w-64"
-        style={topStyle}
-      />
+      {/* Top row: color picker + team name + spacer */}
+      <div className="flex items-center justify-between px-4 pt-4">
+        {isLeft ? (
+          <>
+            <label>
+              <span className="sr-only">Tria el color</span>
+              <input
+                type="color"
+                value={color}
+                onChange={(e) => onColorChange(e.target.value)}
+                onClick={(e) => e.stopPropagation()}
+                className="w-10 h-10 rounded-full cursor-pointer border-2 border-white/30 bg-transparent"
+                style={{ WebkitAppearance: "none" }}
+              />
+            </label>
+            <input
+              type="text"
+              value={teamName}
+              onChange={(e) => onTeamNameChange(e.target.value)}
+              onClick={(e) => e.stopPropagation()}
+              placeholder="Nom de l'equip"
+              className="bg-transparent text-white text-center text-xl font-semibold placeholder-white/30 outline-none border-none flex-1 mx-4"
+            />
+            <div className="w-10" />
+          </>
+        ) : (
+          <>
+            <div className="w-10" />
+            <input
+              type="text"
+              value={teamName}
+              onChange={(e) => onTeamNameChange(e.target.value)}
+              onClick={(e) => e.stopPropagation()}
+              placeholder="Nom de l'equip"
+              className="bg-transparent text-white text-center text-xl font-semibold placeholder-white/30 outline-none border-none flex-1 mx-4"
+            />
+            <label>
+              <span className="sr-only">Tria el color</span>
+              <input
+                type="color"
+                value={color}
+                onChange={(e) => onColorChange(e.target.value)}
+                onClick={(e) => e.stopPropagation()}
+                className="w-10 h-10 rounded-full cursor-pointer border-2 border-white/30 bg-transparent"
+                style={{ WebkitAppearance: "none" }}
+              />
+            </label>
+          </>
+        )}
+      </div>
 
-      <span className="text-[25vw] md:text-[20vw] font-bold text-white drop-shadow-lg select-none">
-        {score}
-      </span>
+      {/* Score - centered */}
+      <div className="flex-1 flex items-center justify-center">
+        <span className="text-[25vw] md:text-[20vw] font-bold text-white drop-shadow-lg select-none">
+          {score}
+        </span>
+      </div>
 
-      {/* Minus button - bottom corner */}
-      <button
-        type="button"
-        onClick={(e) => {
-          e.stopPropagation();
-          onDecrement();
-        }}
-        className={`absolute ${isLeft ? "left-4" : "right-4"} w-14 h-14 rounded-full bg-white/20 hover:bg-white/30 active:bg-white/40 flex items-center justify-center text-white text-3xl font-bold transition-colors`}
-        style={bottomStyle}
-        aria-label="Reduir puntuació"
-      >
-        −
-      </button>
-
-      {/* Color picker - top corner */}
-      <label
-        className={`absolute ${isLeft ? "left-4" : "right-4"}`}
-        style={topStyle}
-      >
-        <span className="sr-only">Tria el color</span>
-        <input
-          type="color"
-          value={color}
-          onChange={(e) => onColorChange(e.target.value)}
-          onClick={(e) => e.stopPropagation()}
-          className="w-10 h-10 rounded-full cursor-pointer border-2 border-white/30 bg-transparent"
-          style={{ WebkitAppearance: "none" }}
-        />
-      </label>
+      {/* Bottom row: minus button */}
+      <div className={`flex px-4 pb-4 ${isLeft ? "justify-start" : "justify-end"}`}>
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            onDecrement();
+          }}
+          className="w-14 h-14 rounded-full bg-white/20 hover:bg-white/30 active:bg-white/40 flex items-center justify-center text-white text-3xl font-bold transition-colors"
+          aria-label="Reduir puntuació"
+        >
+          −
+        </button>
+      </div>
     </div>
   );
 }
