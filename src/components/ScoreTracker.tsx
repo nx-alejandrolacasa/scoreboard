@@ -38,9 +38,13 @@ function ScoreArea({
     }
   };
 
-  // Use safe-area-aware positioning for top/bottom elements
-  const topClass = isTop ? "safe-top" : "top-4";
-  const bottomClass = isTop ? "bottom-4" : "safe-bottom";
+  // Use inline styles for safe area positioning
+  const topStyle = isTop
+    ? { top: "calc(1rem + env(safe-area-inset-top, 0px))" }
+    : { top: "1rem" };
+  const bottomStyle = isTop
+    ? { bottom: "1rem" }
+    : { bottom: "calc(1rem + env(safe-area-inset-bottom, 0px))" };
 
   return (
     <div
@@ -58,7 +62,8 @@ function ScoreArea({
         onChange={(e) => onTeamNameChange(e.target.value)}
         onClick={(e) => e.stopPropagation()}
         placeholder="Nom de l'equip"
-        className={`absolute ${topClass} left-1/2 -translate-x-1/2 bg-transparent text-white text-center text-xl font-semibold placeholder-white/30 outline-none border-none w-48 md:w-64`}
+        className="absolute left-1/2 -translate-x-1/2 bg-transparent text-white text-center text-xl font-semibold placeholder-white/30 outline-none border-none w-48 md:w-64"
+        style={topStyle}
       />
 
       <span className="text-[25vw] md:text-[20vw] font-bold text-white drop-shadow-lg select-none">
@@ -72,14 +77,18 @@ function ScoreArea({
           e.stopPropagation();
           onDecrement();
         }}
-        className={`absolute ${bottomClass} ${isLeft ? "left-4" : "right-4"} w-14 h-14 rounded-full bg-white/20 hover:bg-white/30 active:bg-white/40 flex items-center justify-center text-white text-3xl font-bold transition-colors`}
+        className={`absolute ${isLeft ? "left-4" : "right-4"} w-14 h-14 rounded-full bg-white/20 hover:bg-white/30 active:bg-white/40 flex items-center justify-center text-white text-3xl font-bold transition-colors`}
+        style={bottomStyle}
         aria-label="Reduir puntuació"
       >
         −
       </button>
 
       {/* Color picker - top corner */}
-      <label className={`absolute ${topClass} ${isLeft ? "left-4" : "right-4"}`}>
+      <label
+        className={`absolute ${isLeft ? "left-4" : "right-4"}`}
+        style={topStyle}
+      >
         <span className="sr-only">Tria el color</span>
         <input
           type="color"
@@ -110,7 +119,10 @@ export default function ScoreTracker() {
   }, [leftColor]);
 
   return (
-    <div className="h-dvh w-screen flex flex-col md:flex-row">
+    <div
+      className="w-screen flex flex-col md:flex-row"
+      style={{ height: "100dvh" }}
+    >
       <ScoreArea
         score={leftScore}
         color={leftColor}
