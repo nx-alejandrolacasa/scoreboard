@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface ScoreAreaProps {
   score: number;
@@ -100,6 +100,13 @@ export default function ScoreTracker() {
   const [rightColor, setRightColor] = useState("#2196f3");
   const [leftTeamName, setLeftTeamName] = useState("");
   const [rightTeamName, setRightTeamName] = useState("");
+
+  useEffect(() => {
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) {
+      meta.setAttribute("content", leftColor);
+    }
+  }, [leftColor]);
 
   return (
     <div className="h-screen w-screen flex flex-col md:flex-row">
