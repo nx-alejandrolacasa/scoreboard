@@ -75,7 +75,7 @@ function ScoreArea({
         style={{
           bottom: isTop
             ? "1rem"
-            : "calc(1.5rem + env(safe-area-inset-bottom, 0px))",
+            : "max(5rem, calc(1rem + env(safe-area-inset-bottom, 0px)))",
         }}
         aria-label="Reduir puntuació"
       >
