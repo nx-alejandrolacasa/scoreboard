@@ -135,6 +135,7 @@ export default function ScoreTracker() {
   const [leftTeamName, setLeftTeamName] = useState("");
   const [rightTeamName, setRightTeamName] = useState("");
 
+  // Update theme-color meta tag when top color changes
   useEffect(() => {
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) {
@@ -142,11 +143,39 @@ export default function ScoreTracker() {
     }
   }, [leftColor]);
 
+  // Keep screen awake
+  useEffect(() => {
+    let wakeLock: WakeLockSentinel | null = null;
+
+    const requestWakeLock = async () => {
+      try {
+        if ("wakeLock" in navigator) {
+          wakeLock = await navigator.wakeLock.request("screen");
+        }
+      } catch (err) {
+        console.log("Wake Lock error:", err);
+      }
+    };
+
+    requestWakeLock();
+
+    // Re-request wake lock when page becomes visible again
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        requestWakeLock();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      wakeLock?.release();
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
+
   return (
-    <div
-      className="w-screen flex flex-col md:flex-row"
-      style={{ height: "100dvh" }}
-    >
+    <div className="fixed inset-0 flex flex-col md:flex-row">
       <ScoreArea
         score={leftScore}
         color={leftColor}
