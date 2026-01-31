@@ -3,19 +3,25 @@ import { useState } from "react";
 interface ScoreAreaProps {
   score: number;
   color: string;
+  teamName: string;
   onIncrement: () => void;
   onDecrement: () => void;
   onColorChange: (color: string) => void;
+  onTeamNameChange: (name: string) => void;
   isLeft: boolean;
+  isTop: boolean;
 }
 
 function ScoreArea({
   score,
   color,
+  teamName,
   onIncrement,
   onDecrement,
   onColorChange,
+  onTeamNameChange,
   isLeft,
+  isTop,
 }: ScoreAreaProps) {
   const handleMainClick = (e: React.MouseEvent | React.TouchEvent) => {
     const target = e.target as HTMLElement;
@@ -32,15 +38,28 @@ function ScoreArea({
     }
   };
 
+  // Apply safe area padding for Dynamic Island (top) and home indicator (bottom)
+  const safeAreaClass = isTop ? "safe-area-top" : "safe-area-bottom";
+
   return (
     <div
       role="button"
       tabIndex={0}
-      className="relative flex-1 flex items-center justify-center cursor-pointer transition-colors duration-300"
+      className={`relative flex-1 flex items-center justify-center cursor-pointer transition-colors duration-300 ${safeAreaClass}`}
       style={{ backgroundColor: color }}
       onClick={handleMainClick}
       onKeyDown={handleKeyDown}
     >
+      {/* Team name - centered at top */}
+      <input
+        type="text"
+        value={teamName}
+        onChange={(e) => onTeamNameChange(e.target.value)}
+        onClick={(e) => e.stopPropagation()}
+        placeholder="Team name"
+        className="absolute top-4 left-1/2 -translate-x-1/2 bg-transparent text-white text-center text-xl font-semibold placeholder-white/50 outline-none border-none w-48 md:w-64"
+      />
+
       <span className="text-[25vw] md:text-[20vw] font-bold text-white drop-shadow-lg select-none">
         {score}
       </span>
@@ -77,26 +96,34 @@ function ScoreArea({
 export default function ScoreTracker() {
   const [leftScore, setLeftScore] = useState(0);
   const [rightScore, setRightScore] = useState(0);
-  const [leftColor, setLeftColor] = useState("#3b82f6");
-  const [rightColor, setRightColor] = useState("#ef4444");
+  const [leftColor, setLeftColor] = useState("#8bc34a");
+  const [rightColor, setRightColor] = useState("#2196f3");
+  const [leftTeamName, setLeftTeamName] = useState("");
+  const [rightTeamName, setRightTeamName] = useState("");
 
   return (
     <div className="h-screen w-screen flex flex-col md:flex-row">
       <ScoreArea
         score={leftScore}
         color={leftColor}
+        teamName={leftTeamName}
         onIncrement={() => setLeftScore((s) => s + 1)}
         onDecrement={() => setLeftScore((s) => Math.max(0, s - 1))}
         onColorChange={setLeftColor}
+        onTeamNameChange={setLeftTeamName}
         isLeft={true}
+        isTop={true}
       />
       <ScoreArea
         score={rightScore}
         color={rightColor}
+        teamName={rightTeamName}
         onIncrement={() => setRightScore((s) => s + 1)}
         onDecrement={() => setRightScore((s) => Math.max(0, s - 1))}
         onColorChange={setRightColor}
+        onTeamNameChange={setRightTeamName}
         isLeft={false}
+        isTop={false}
       />
     </div>
   );
