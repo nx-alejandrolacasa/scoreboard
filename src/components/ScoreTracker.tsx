@@ -38,14 +38,15 @@ function ScoreArea({
     }
   };
 
-  // Apply safe area padding for Dynamic Island (top) and home indicator (bottom)
-  const safeAreaClass = isTop ? "safe-area-top" : "safe-area-bottom";
+  // Use safe-area-aware positioning for top/bottom elements
+  const topClass = isTop ? "safe-top" : "top-4";
+  const bottomClass = isTop ? "bottom-4" : "safe-bottom";
 
   return (
     <div
       role="button"
       tabIndex={0}
-      className={`relative flex-1 flex items-center justify-center cursor-pointer transition-colors duration-300 ${safeAreaClass}`}
+      className="relative flex-1 flex items-center justify-center cursor-pointer transition-colors duration-300"
       style={{ backgroundColor: color }}
       onClick={handleMainClick}
       onKeyDown={handleKeyDown}
@@ -57,7 +58,7 @@ function ScoreArea({
         onChange={(e) => onTeamNameChange(e.target.value)}
         onClick={(e) => e.stopPropagation()}
         placeholder="Nom de l'equip"
-        className="absolute top-4 left-1/2 -translate-x-1/2 bg-transparent text-white text-center text-xl font-semibold placeholder-white/30 outline-none border-none w-48 md:w-64"
+        className={`absolute ${topClass} left-1/2 -translate-x-1/2 bg-transparent text-white text-center text-xl font-semibold placeholder-white/30 outline-none border-none w-48 md:w-64`}
       />
 
       <span className="text-[25vw] md:text-[20vw] font-bold text-white drop-shadow-lg select-none">
@@ -71,14 +72,14 @@ function ScoreArea({
           e.stopPropagation();
           onDecrement();
         }}
-        className={`absolute bottom-4 ${isLeft ? "left-4" : "right-4"} w-14 h-14 rounded-full bg-white/20 hover:bg-white/30 active:bg-white/40 flex items-center justify-center text-white text-3xl font-bold transition-colors`}
+        className={`absolute ${bottomClass} ${isLeft ? "left-4" : "right-4"} w-14 h-14 rounded-full bg-white/20 hover:bg-white/30 active:bg-white/40 flex items-center justify-center text-white text-3xl font-bold transition-colors`}
         aria-label="Reduir puntuació"
       >
         −
       </button>
 
       {/* Color picker - top corner */}
-      <label className={`absolute top-4 ${isLeft ? "left-4" : "right-4"}`}>
+      <label className={`absolute ${topClass} ${isLeft ? "left-4" : "right-4"}`}>
         <span className="sr-only">Tria el color</span>
         <input
           type="color"
@@ -109,7 +110,7 @@ export default function ScoreTracker() {
   }, [leftColor]);
 
   return (
-    <div className="h-screen w-screen flex flex-col md:flex-row">
+    <div className="h-dvh w-screen flex flex-col md:flex-row">
       <ScoreArea
         score={leftScore}
         color={leftColor}
