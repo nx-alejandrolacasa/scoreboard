@@ -71,7 +71,12 @@ function ScoreArea({
           e.stopPropagation();
           onDecrement();
         }}
-        className={`absolute bottom-4 ${isLeft ? "left-4" : "right-4"} w-14 h-14 rounded-full bg-white/20 hover:bg-white/30 active:bg-white/40 flex items-center justify-center text-white text-3xl font-bold transition-colors`}
+        className={`absolute ${isLeft ? "left-4" : "right-4"} w-14 h-14 rounded-full bg-white/20 hover:bg-white/30 active:bg-white/40 flex items-center justify-center text-white text-3xl font-bold transition-colors`}
+        style={{
+          bottom: isTop
+            ? "1rem"
+            : "max(5rem, calc(1rem + env(safe-area-inset-bottom, 0px)))",
+        }}
         aria-label="Reduir puntuació"
       >
         −
