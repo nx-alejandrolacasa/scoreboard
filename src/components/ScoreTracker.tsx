@@ -56,8 +56,8 @@ function ScoreArea({
         value={teamName}
         onChange={(e) => onTeamNameChange(e.target.value)}
         onClick={(e) => e.stopPropagation()}
-        placeholder="Team name"
-        className="absolute top-4 left-1/2 -translate-x-1/2 bg-transparent text-white text-center text-xl font-semibold placeholder-white/50 outline-none border-none w-48 md:w-64"
+        placeholder="Nom de l'equip"
+        className="absolute top-4 left-1/2 -translate-x-1/2 bg-transparent text-white text-center text-xl font-semibold placeholder-white/30 outline-none border-none w-48 md:w-64"
       />
 
       <span className="text-[25vw] md:text-[20vw] font-bold text-white drop-shadow-lg select-none">
@@ -72,14 +72,14 @@ function ScoreArea({
           onDecrement();
         }}
         className={`absolute bottom-4 ${isLeft ? "left-4" : "right-4"} w-14 h-14 rounded-full bg-white/20 hover:bg-white/30 active:bg-white/40 flex items-center justify-center text-white text-3xl font-bold transition-colors`}
-        aria-label="Decrease score"
+        aria-label="Reduir puntuació"
       >
         −
       </button>
 
       {/* Color picker - top corner */}
       <label className={`absolute top-4 ${isLeft ? "left-4" : "right-4"}`}>
-        <span className="sr-only">Choose color</span>
+        <span className="sr-only">Tria el color</span>
         <input
           type="color"
           value={color}
