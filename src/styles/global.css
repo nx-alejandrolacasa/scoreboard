@@ -5,6 +5,12 @@
 * {
   -webkit-tap-highlight-color: transparent;
   user-select: none;
+  touch-action: manipulation;
+}
+
+html, body {
+  touch-action: none;
+  overscroll-behavior: none;
 }
 
 html {
@@ -33,4 +39,7 @@ body {
   flex: 1 0 auto;
   height: 100%;
   overflow: hidden;
+  /* Apply safe areas to container so both sections share space equally */
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
 }

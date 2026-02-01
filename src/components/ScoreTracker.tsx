@@ -52,8 +52,6 @@ function ScoreArea({
         className="flex items-center justify-between px-4 pt-4"
         style={{
           paddingTop: isTop ? 'calc(env(safe-area-inset-top, 0px) + 1rem)' : undefined,
-          paddingLeft: isLeft ? 'calc(env(safe-area-inset-left, 0px) + 1rem)' : undefined,
-          paddingRight: !isLeft ? 'calc(env(safe-area-inset-right, 0px) + 1rem)' : undefined,
         }}
       >
         {isLeft ? (
@@ -117,8 +115,6 @@ function ScoreArea({
         className={`flex px-4 pb-4 ${isLeft ? "justify-start" : "justify-end"}`}
         style={{
           paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 1rem)',
-          paddingLeft: isLeft ? 'calc(env(safe-area-inset-left, 0px) + 1rem)' : undefined,
-          paddingRight: !isLeft ? 'calc(env(safe-area-inset-right, 0px) + 1rem)' : undefined,
         }}
       >
         <button
