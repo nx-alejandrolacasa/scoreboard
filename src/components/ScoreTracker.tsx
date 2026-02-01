@@ -175,7 +175,10 @@ export default function ScoreTracker() {
   }, []);
 
   return (
-    <div className="fixed inset-0 flex flex-col md:flex-row">
+    <div
+      className="fixed inset-0 flex flex-col md:flex-row"
+      style={{ height: "-webkit-fill-available" }}
+    >
       <ScoreArea
         score={leftScore}
         color={leftColor}
