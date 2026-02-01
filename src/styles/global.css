@@ -18,20 +18,12 @@ body {
 
 /* PWA standalone mode - iOS specific fix */
 @media all and (display-mode: standalone) {
-  html,
-  body {
-    height: 100vh;
-    height: -webkit-fill-available;
-  }
-
   .app-container {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
-    height: 100vh;
-    height: -webkit-fill-available;
+    bottom: calc(-1 * env(safe-area-inset-bottom, 0px));
     -webkit-overflow-scrolling: touch;
   }
 }
