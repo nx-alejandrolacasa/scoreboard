@@ -42,17 +42,18 @@ function ScoreArea({
     <div
       role="button"
       tabIndex={0}
-      className="flex-1 flex flex-col cursor-pointer transition-colors duration-300"
-      style={{
-        backgroundColor: color,
-        paddingTop: isTop ? 'env(safe-area-inset-top, 0px)' : undefined,
-        paddingBottom: !isTop ? 'env(safe-area-inset-bottom, 0px)' : undefined,
-      }}
+      className="flex-1 flex flex-col cursor-pointer transition-colors duration-300 overflow-hidden"
+      style={{ backgroundColor: color, minWidth: 0 }}
       onClick={handleMainClick}
       onKeyDown={handleKeyDown}
     >
       {/* Top row: color picker + team name + spacer */}
-      <div className="flex items-center justify-between px-4 pt-4">
+      <div
+        className="flex items-center justify-between px-4 pt-4"
+        style={{
+          paddingTop: isTop ? 'calc(env(safe-area-inset-top, 0px) + 1rem)' : undefined,
+        }}
+      >
         {isLeft ? (
           <>
             <label>
@@ -110,7 +111,12 @@ function ScoreArea({
       </div>
 
       {/* Bottom row: minus button */}
-      <div className={`flex px-4 pb-4 ${isLeft ? "justify-start" : "justify-end"}`}>
+      <div
+        className={`flex px-4 pb-4 ${isLeft ? "justify-start" : "justify-end"}`}
+        style={{
+          paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 1rem)',
+        }}
+      >
         <button
           type="button"
           onClick={(e) => {
@@ -130,8 +136,8 @@ function ScoreArea({
 export default function ScoreTracker() {
   const [leftScore, setLeftScore] = useState(0);
   const [rightScore, setRightScore] = useState(0);
-  const [leftColor, setLeftColor] = useState("#8bc34a");
-  const [rightColor, setRightColor] = useState("#2196f3");
+  const [leftColor, setLeftColor] = useState("#3b82f6");
+  const [rightColor, setRightColor] = useState("#ef4444");
   const [leftTeamName, setLeftTeamName] = useState("");
   const [rightTeamName, setRightTeamName] = useState("");
 
@@ -143,10 +149,10 @@ export default function ScoreTracker() {
     }
   }, [leftColor]);
 
-  // Set body background to bottom section color (fills home indicator area)
+  // Set body background to top section color (fills status bar area)
   useEffect(() => {
-    document.body.style.backgroundColor = rightColor;
-  }, [rightColor]);
+    document.body.style.backgroundColor = leftColor;
+  }, [leftColor]);
 
   // Keep screen awake
   useEffect(() => {
