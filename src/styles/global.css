@@ -14,6 +14,7 @@ html {
   min-height: calc(100% + env(safe-area-inset-top));
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 body {
@@ -23,6 +24,7 @@ body {
   display: flex;
   flex-direction: column;
   flex: 1 0 auto;
+  overflow: hidden;
 }
 
 .app-container {

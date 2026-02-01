@@ -43,18 +43,19 @@ function ScoreArea({
       role="button"
       tabIndex={0}
       className="flex-1 flex flex-col cursor-pointer transition-colors duration-300"
-      style={{
-        backgroundColor: color,
-        paddingTop: isTop ? 'env(safe-area-inset-top, 0px)' : undefined,
-        paddingBottom: !isTop ? 'env(safe-area-inset-bottom, 0px)' : undefined,
-        paddingLeft: isLeft ? 'env(safe-area-inset-left, 0px)' : undefined,
-        paddingRight: !isLeft ? 'env(safe-area-inset-right, 0px)' : undefined,
-      }}
+      style={{ backgroundColor: color }}
       onClick={handleMainClick}
       onKeyDown={handleKeyDown}
     >
       {/* Top row: color picker + team name + spacer */}
-      <div className="flex items-center justify-between px-4 pt-4">
+      <div
+        className="flex items-center justify-between px-4 pt-4"
+        style={{
+          paddingTop: isTop ? 'calc(env(safe-area-inset-top, 0px) + 1rem)' : undefined,
+          paddingLeft: isLeft ? 'calc(env(safe-area-inset-left, 0px) + 1rem)' : undefined,
+          paddingRight: !isLeft ? 'calc(env(safe-area-inset-right, 0px) + 1rem)' : undefined,
+        }}
+      >
         {isLeft ? (
           <>
             <label>
@@ -112,7 +113,14 @@ function ScoreArea({
       </div>
 
       {/* Bottom row: minus button */}
-      <div className={`flex px-4 pb-4 ${isLeft ? "justify-start" : "justify-end"}`}>
+      <div
+        className={`flex px-4 pb-4 ${isLeft ? "justify-start" : "justify-end"}`}
+        style={{
+          paddingBottom: !isTop ? 'calc(env(safe-area-inset-bottom, 0px) + 1rem)' : undefined,
+          paddingLeft: isLeft ? 'calc(env(safe-area-inset-left, 0px) + 1rem)' : undefined,
+          paddingRight: !isLeft ? 'calc(env(safe-area-inset-right, 0px) + 1rem)' : undefined,
+        }}
+      >
         <button
           type="button"
           onClick={(e) => {
