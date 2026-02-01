@@ -16,9 +16,24 @@ body {
   height: 100%;
 }
 
-#root,
-body > div {
-  min-height: calc(100% + env(safe-area-inset-top));
+/* PWA standalone mode - iOS specific fix */
+@media all and (display-mode: standalone) {
+  html,
+  body {
+    height: 100vh;
+    height: -webkit-fill-available;
+  }
+
+  .app-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100vh;
+    height: -webkit-fill-available;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 /* Safe area classes for iOS notch and home indicator */
