@@ -143,6 +143,25 @@ export default function ScoreTracker() {
     }
   }, [leftColor]);
 
+  // Set viewport height CSS variable for iOS compatibility
+  useEffect(() => {
+    const setAppHeight = () => {
+      document.documentElement.style.setProperty(
+        "--app-height",
+        `${window.innerHeight}px`
+      );
+    };
+
+    setAppHeight();
+    window.addEventListener("resize", setAppHeight);
+    window.addEventListener("orientationchange", setAppHeight);
+
+    return () => {
+      window.removeEventListener("resize", setAppHeight);
+      window.removeEventListener("orientationchange", setAppHeight);
+    };
+  }, []);
+
   // Keep screen awake
   useEffect(() => {
     let wakeLock: WakeLockSentinel | null = null;
@@ -177,7 +196,7 @@ export default function ScoreTracker() {
   return (
     <div
       className="fixed inset-0 flex flex-col md:flex-row"
-      style={{ height: "-webkit-fill-available" }}
+      style={{ height: "var(--app-height, 100vh)" }}
     >
       <ScoreArea
         score={leftScore}
