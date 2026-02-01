@@ -51,7 +51,7 @@ function ScoreArea({
       onClick={handleMainClick}
       onKeyDown={handleKeyDown}
     >
-      {/* Top row: color picker + team name + spacer */}
+      {/* Top row: color picker + team name + minus button */}
       <div className="flex items-center justify-between px-4 pt-4">
         {isLeft ? (
           <>
@@ -74,11 +74,31 @@ function ScoreArea({
               placeholder="Nom de l'equip"
               className="bg-transparent text-white text-center text-xl font-semibold placeholder-white/30 outline-none border-none flex-1 mx-4"
             />
-            <div className="w-10" />
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onDecrement();
+              }}
+              className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 active:bg-white/40 flex items-center justify-center text-white text-2xl font-bold transition-colors"
+              aria-label="Reduir puntuació"
+            >
+              −
+            </button>
           </>
         ) : (
           <>
-            <div className="w-10" />
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onDecrement();
+              }}
+              className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 active:bg-white/40 flex items-center justify-center text-white text-2xl font-bold transition-colors"
+              aria-label="Reduir puntuació"
+            >
+              −
+            </button>
             <input
               type="text"
               value={teamName}
@@ -107,21 +127,6 @@ function ScoreArea({
         <span className="text-[25vw] md:text-[20vw] font-bold text-white drop-shadow-lg select-none">
           {score}
         </span>
-      </div>
-
-      {/* Bottom row: minus button */}
-      <div className={`flex px-4 pb-4 ${isLeft ? "justify-start" : "justify-end"}`}>
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            onDecrement();
-          }}
-          className="w-14 h-14 rounded-full bg-white/20 hover:bg-white/30 active:bg-white/40 flex items-center justify-center text-white text-3xl font-bold transition-colors"
-          aria-label="Reduir puntuació"
-        >
-          −
-        </button>
       </div>
     </div>
   );
