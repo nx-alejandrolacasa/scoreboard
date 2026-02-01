@@ -42,8 +42,8 @@ function ScoreArea({
     <div
       role="button"
       tabIndex={0}
-      className="flex-1 flex flex-col cursor-pointer transition-colors duration-300"
-      style={{ backgroundColor: color }}
+      className="flex-1 flex flex-col cursor-pointer transition-colors duration-300 overflow-hidden"
+      style={{ backgroundColor: color, minWidth: 0 }}
       onClick={handleMainClick}
       onKeyDown={handleKeyDown}
     >

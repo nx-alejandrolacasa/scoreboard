@@ -21,6 +21,9 @@ html {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
 }
 
 body {
@@ -31,6 +34,9 @@ body {
   flex-direction: column;
   flex: 1 0 auto;
   overflow: hidden;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
 }
 
 .app-container {
@@ -38,8 +44,11 @@ body {
   flex-direction: column;
   flex: 1 0 auto;
   height: 100%;
+  width: 100%;
+  max-width: 100%;
   overflow: hidden;
   /* Apply safe areas to container so both sections share space equally */
   padding-left: env(safe-area-inset-left, 0px);
   padding-right: env(safe-area-inset-right, 0px);
+  box-sizing: border-box;
 }
