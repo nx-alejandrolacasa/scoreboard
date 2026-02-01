@@ -38,15 +38,16 @@ function ScoreArea({
     }
   };
 
-  // Apply safe area padding for top section only (notch area)
-  const safeTopClass = isTop ? "pt-safe" : "";
-
   return (
     <div
       role="button"
       tabIndex={0}
-      className={`flex-1 flex flex-col cursor-pointer transition-colors duration-300 ${safeTopClass}`}
-      style={{ backgroundColor: color }}
+      className="flex-1 flex flex-col cursor-pointer transition-colors duration-300"
+      style={{
+        backgroundColor: color,
+        paddingTop: isTop ? 'env(safe-area-inset-top, 0px)' : undefined,
+        paddingBottom: !isTop ? 'env(safe-area-inset-bottom, 0px)' : undefined,
+      }}
       onClick={handleMainClick}
       onKeyDown={handleKeyDown}
     >
@@ -179,7 +180,7 @@ export default function ScoreTracker() {
   }, []);
 
   return (
-    <div className="app-container w-full h-full flex flex-col md:flex-row">
+    <div className="app-container w-full flex flex-col md:flex-row">
       <ScoreArea
         score={leftScore}
         color={leftColor}
