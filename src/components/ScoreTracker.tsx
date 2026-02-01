@@ -175,7 +175,10 @@ export default function ScoreTracker() {
   }, []);
 
   return (
-    <div className="min-h-full w-full flex flex-col md:flex-row">
+    <div
+      className="w-full flex flex-col md:flex-row"
+      style={{ minHeight: "calc(100% + env(safe-area-inset-top, 0px))" }}
+    >
       <ScoreArea
         score={leftScore}
         color={leftColor}
