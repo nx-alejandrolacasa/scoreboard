@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface ScoreAreaProps {
   score: number;
@@ -38,62 +38,91 @@ function ScoreArea({
     }
   };
 
-  // Apply safe area padding for Dynamic Island (top) and home indicator (bottom)
-  const safeAreaClass = isTop ? "safe-area-top" : "safe-area-bottom";
-
   return (
     <div
       role="button"
       tabIndex={0}
-      className={`relative flex-1 flex items-center justify-center cursor-pointer transition-colors duration-300 ${safeAreaClass}`}
-      style={{ backgroundColor: color }}
+      className="flex-1 flex flex-col cursor-pointer transition-colors duration-300"
+      style={{
+        backgroundColor: color,
+        paddingTop: isTop ? 'env(safe-area-inset-top, 0px)' : undefined,
+        paddingBottom: !isTop ? 'env(safe-area-inset-bottom, 0px)' : undefined,
+      }}
       onClick={handleMainClick}
       onKeyDown={handleKeyDown}
     >
-      {/* Team name - centered at top */}
-      <input
-        type="text"
-        value={teamName}
-        onChange={(e) => onTeamNameChange(e.target.value)}
-        onClick={(e) => e.stopPropagation()}
-        placeholder="Nom de l'equip"
-        className="absolute top-4 left-1/2 -translate-x-1/2 bg-transparent text-white text-center text-xl font-semibold placeholder-white/30 outline-none border-none w-48 md:w-64"
-      />
+      {/* Top row: color picker + team name + spacer */}
+      <div className="flex items-center justify-between px-4 pt-4">
+        {isLeft ? (
+          <>
+            <label>
+              <span className="sr-only">Tria el color</span>
+              <input
+                type="color"
+                value={color}
+                onChange={(e) => onColorChange(e.target.value)}
+                onClick={(e) => e.stopPropagation()}
+                className="w-14 h-14 rounded-full cursor-pointer border-2 border-white/30 bg-transparent"
+                style={{ WebkitAppearance: "none" }}
+              />
+            </label>
+            <input
+              type="text"
+              value={teamName}
+              onChange={(e) => onTeamNameChange(e.target.value)}
+              onClick={(e) => e.stopPropagation()}
+              placeholder="Nom de l'equip"
+              className="bg-transparent text-white text-center text-xl font-semibold placeholder-white/30 outline-none border-none flex-1 mx-4"
+            />
+            <div className="w-14" />
+          </>
+        ) : (
+          <>
+            <div className="w-14" />
+            <input
+              type="text"
+              value={teamName}
+              onChange={(e) => onTeamNameChange(e.target.value)}
+              onClick={(e) => e.stopPropagation()}
+              placeholder="Nom de l'equip"
+              className="bg-transparent text-white text-center text-xl font-semibold placeholder-white/30 outline-none border-none flex-1 mx-4"
+            />
+            <label>
+              <span className="sr-only">Tria el color</span>
+              <input
+                type="color"
+                value={color}
+                onChange={(e) => onColorChange(e.target.value)}
+                onClick={(e) => e.stopPropagation()}
+                className="w-14 h-14 rounded-full cursor-pointer border-2 border-white/30 bg-transparent"
+                style={{ WebkitAppearance: "none" }}
+              />
+            </label>
+          </>
+        )}
+      </div>
 
-      <span className="text-[25vw] md:text-[20vw] font-bold text-white drop-shadow-lg select-none">
-        {score}
-      </span>
+      {/* Score - centered */}
+      <div className="flex-1 flex items-center justify-center">
+        <span className="text-[25vw] md:text-[20vw] font-bold text-white drop-shadow-lg select-none">
+          {score}
+        </span>
+      </div>
 
-      {/* Minus button - bottom corner */}
-      <button
-        type="button"
-        onClick={(e) => {
-          e.stopPropagation();
-          onDecrement();
-        }}
-        className={`absolute ${isLeft ? "left-4" : "right-4"} w-14 h-14 rounded-full bg-white/20 hover:bg-white/30 active:bg-white/40 flex items-center justify-center text-white text-3xl font-bold transition-colors`}
-        style={{
-          bottom: isTop
-            ? "1rem"
-            : "max(5rem, calc(1rem + env(safe-area-inset-bottom, 0px)))",
-        }}
-        aria-label="Reduir puntuació"
-      >
-        −
-      </button>
-
-      {/* Color picker - top corner */}
-      <label className={`absolute top-4 ${isLeft ? "left-4" : "right-4"}`}>
-        <span className="sr-only">Tria el color</span>
-        <input
-          type="color"
-          value={color}
-          onChange={(e) => onColorChange(e.target.value)}
-          onClick={(e) => e.stopPropagation()}
-          className="w-10 h-10 rounded-full cursor-pointer border-2 border-white/30 bg-transparent"
-          style={{ WebkitAppearance: "none" }}
-        />
-      </label>
+      {/* Bottom row: minus button */}
+      <div className={`flex px-4 pb-4 ${isLeft ? "justify-start" : "justify-end"}`}>
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            onDecrement();
+          }}
+          className="w-14 h-14 rounded-full bg-white/20 hover:bg-white/30 active:bg-white/40 flex items-center justify-center text-white text-3xl font-bold transition-colors"
+          aria-label="Reduir puntuació"
+        >
+          −
+        </button>
+      </div>
     </div>
   );
 }
@@ -106,8 +135,52 @@ export default function ScoreTracker() {
   const [leftTeamName, setLeftTeamName] = useState("");
   const [rightTeamName, setRightTeamName] = useState("");
 
+  // Update theme-color meta tag when top color changes
+  useEffect(() => {
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) {
+      meta.setAttribute("content", leftColor);
+    }
+  }, [leftColor]);
+
+  // Set body background to bottom section color (fills home indicator area)
+  useEffect(() => {
+    document.body.style.backgroundColor = rightColor;
+  }, [rightColor]);
+
+  // Keep screen awake
+  useEffect(() => {
+    let wakeLock: WakeLockSentinel | null = null;
+
+    const requestWakeLock = async () => {
+      try {
+        if ("wakeLock" in navigator) {
+          wakeLock = await navigator.wakeLock.request("screen");
+        }
+      } catch (err) {
+        console.log("Wake Lock error:", err);
+      }
+    };
+
+    requestWakeLock();
+
+    // Re-request wake lock when page becomes visible again
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        requestWakeLock();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      wakeLock?.release();
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
+
   return (
-    <div className="h-screen w-screen flex flex-col md:flex-row">
+    <div className="app-container w-full flex flex-col md:flex-row">
       <ScoreArea
         score={leftScore}
         color={leftColor}
