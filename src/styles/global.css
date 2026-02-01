@@ -16,17 +16,11 @@ body {
   height: 100%;
 }
 
-/* PWA standalone mode - iOS specific fix */
+/* PWA standalone mode */
 @media all and (display-mode: standalone) {
   .app-container {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 100vh; /* fallback */
-    height: 100lvh; /* large viewport height - full screen */
-    -webkit-overflow-scrolling: touch;
+    inset: 0;
   }
 }
 
