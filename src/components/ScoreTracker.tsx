@@ -47,6 +47,8 @@ function ScoreArea({
         backgroundColor: color,
         paddingTop: isTop ? 'env(safe-area-inset-top, 0px)' : undefined,
         paddingBottom: !isTop ? 'env(safe-area-inset-bottom, 0px)' : undefined,
+        paddingLeft: isLeft ? 'env(safe-area-inset-left, 0px)' : undefined,
+        paddingRight: !isLeft ? 'env(safe-area-inset-right, 0px)' : undefined,
       }}
       onClick={handleMainClick}
       onKeyDown={handleKeyDown}
@@ -130,8 +132,8 @@ function ScoreArea({
 export default function ScoreTracker() {
   const [leftScore, setLeftScore] = useState(0);
   const [rightScore, setRightScore] = useState(0);
-  const [leftColor, setLeftColor] = useState("#8bc34a");
-  const [rightColor, setRightColor] = useState("#2196f3");
+  const [leftColor, setLeftColor] = useState("#3b82f6");
+  const [rightColor, setRightColor] = useState("#ef4444");
   const [leftTeamName, setLeftTeamName] = useState("");
   const [rightTeamName, setRightTeamName] = useState("");
 
