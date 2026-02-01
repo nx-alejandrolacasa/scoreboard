@@ -116,7 +116,7 @@ function ScoreArea({
       <div
         className={`flex px-4 pb-4 ${isLeft ? "justify-start" : "justify-end"}`}
         style={{
-          paddingBottom: !isTop ? 'calc(env(safe-area-inset-bottom, 0px) + 1rem)' : undefined,
+          paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 1rem)',
           paddingLeft: isLeft ? 'calc(env(safe-area-inset-left, 0px) + 1rem)' : undefined,
           paddingRight: !isLeft ? 'calc(env(safe-area-inset-right, 0px) + 1rem)' : undefined,
         }}
