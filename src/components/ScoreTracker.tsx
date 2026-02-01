@@ -109,7 +109,10 @@ function ScoreArea({
       </div>
 
       {/* Bottom row: minus button */}
-      <div className={`flex px-4 pb-4 ${isLeft ? "justify-start" : "justify-end"}`}>
+      <div
+        className={`flex px-4 ${isLeft ? "justify-start" : "justify-end"}`}
+        style={{ paddingBottom: isTop ? "1rem" : "calc(1rem + env(safe-area-inset-bottom, 0px))" }}
+      >
         <button
           type="button"
           onClick={(e) => {
