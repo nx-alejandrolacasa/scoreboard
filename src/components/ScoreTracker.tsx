@@ -143,10 +143,10 @@ export default function ScoreTracker() {
     }
   }, [leftColor]);
 
-  // Set body background to bottom section color (fills home indicator area)
+  // Set body background to top section color (fills status bar area)
   useEffect(() => {
-    document.body.style.backgroundColor = rightColor;
-  }, [rightColor]);
+    document.body.style.backgroundColor = leftColor;
+  }, [leftColor]);
 
   // Keep screen awake
   useEffect(() => {
