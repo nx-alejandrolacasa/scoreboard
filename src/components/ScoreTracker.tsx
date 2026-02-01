@@ -143,6 +143,11 @@ export default function ScoreTracker() {
     }
   }, [leftColor]);
 
+  // Set body background to bottom section color (fills home indicator area)
+  useEffect(() => {
+    document.body.style.backgroundColor = rightColor;
+  }, [rightColor]);
+
   // Keep screen awake
   useEffect(() => {
     let wakeLock: WakeLockSentinel | null = null;
