@@ -38,15 +38,14 @@ function ScoreArea({
     }
   };
 
-  // Apply safe area padding classes
+  // Apply safe area padding for top section only (notch area)
   const safeTopClass = isTop ? "pt-safe" : "";
-  const safeBottomClass = isTop ? "" : "pb-safe";
 
   return (
     <div
       role="button"
       tabIndex={0}
-      className={`flex-1 flex flex-col cursor-pointer transition-colors duration-300 ${safeTopClass} ${safeBottomClass}`}
+      className={`flex-1 flex flex-col cursor-pointer transition-colors duration-300 ${safeTopClass}`}
       style={{ backgroundColor: color }}
       onClick={handleMainClick}
       onKeyDown={handleKeyDown}
