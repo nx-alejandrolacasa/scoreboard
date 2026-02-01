@@ -62,7 +62,7 @@ function ScoreArea({
                 value={color}
                 onChange={(e) => onColorChange(e.target.value)}
                 onClick={(e) => e.stopPropagation()}
-                className="w-10 h-10 rounded-full cursor-pointer border-2 border-white/30 bg-transparent"
+                className="w-14 h-14 rounded-full cursor-pointer border-2 border-white/30 bg-transparent"
                 style={{ WebkitAppearance: "none" }}
               />
             </label>
@@ -74,11 +74,11 @@ function ScoreArea({
               placeholder="Nom de l'equip"
               className="bg-transparent text-white text-center text-xl font-semibold placeholder-white/30 outline-none border-none flex-1 mx-4"
             />
-            <div className="w-10" />
+            <div className="w-14" />
           </>
         ) : (
           <>
-            <div className="w-10" />
+            <div className="w-14" />
             <input
               type="text"
               value={teamName}
@@ -94,7 +94,7 @@ function ScoreArea({
                 value={color}
                 onChange={(e) => onColorChange(e.target.value)}
                 onClick={(e) => e.stopPropagation()}
-                className="w-10 h-10 rounded-full cursor-pointer border-2 border-white/30 bg-transparent"
+                className="w-14 h-14 rounded-full cursor-pointer border-2 border-white/30 bg-transparent"
                 style={{ WebkitAppearance: "none" }}
               />
             </label>
